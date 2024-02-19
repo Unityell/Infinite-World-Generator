@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: bae285a2a7db6494a86cdad2cc77ddcf
+timeCreated: 1569739734
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 155250
+  packageName: Fatty Poly Turret
+  packageVersion: 1.0
+  assetPath: Assets/FattyPolyTurret/Prefabs/FattyMortarY01.prefab
+  uploadId: 413679

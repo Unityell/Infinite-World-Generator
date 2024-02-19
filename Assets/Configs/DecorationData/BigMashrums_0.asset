@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43430310785d89f4fbe0c8d8fb18c85e, type: 3}
+  m_Name: BigMashrums_0
+  m_EditorClassIdentifier: 
+  _decorations:
+  - {fileID: 1219574253440144534, guid: 166b0cd074423d9459bc19f78bdef1a9, type: 3}
+  - {fileID: 8175599264348567831, guid: 8140f25fb729a4d4c81d512e43738a9f, type: 3}
+  - {fileID: 1935994643066380040, guid: 0675a1c1c85268c4896abbc17c251d59, type: 3}
+  - {fileID: 1294910553228890112, guid: faf14bd4f93960a4b9263e217c66ef1a, type: 3}
+  - {fileID: -5504793177095161630, guid: 34d8f27291504e94dac7bf04018dd953, type: 3}
+  - {fileID: 7775547322354987048, guid: 7e1c6f8ed262ca64eb0880fee45afb94, type: 3}
+  - {fileID: -3166646565322394634, guid: 4464c343f58191e4fb7153ce8c98abaa, type: 3}
+  - {fileID: 2368876069378351798, guid: c6f8e9192cd977041a526589891418a5, type: 3}
+  - {fileID: -5077034766566067408, guid: a48c9d6078f19f44787809520f49347b, type: 3}

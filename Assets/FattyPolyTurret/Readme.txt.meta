@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e3daed9ad91692b4b9408008158f2251
+timeCreated: 1569773522
+licenseType: Store
+TextScriptImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 155250
+  packageName: Fatty Poly Turret
+  packageVersion: 1.0
+  assetPath: Assets/FattyPolyTurret/Readme.txt
+  uploadId: 413679

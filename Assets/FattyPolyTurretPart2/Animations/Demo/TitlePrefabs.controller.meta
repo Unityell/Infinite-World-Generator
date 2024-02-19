@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c6d9a8bdd38f0814b810248504380254
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 159985
+  packageName: Fatty Poly Turret Part2
+  packageVersion: 1.0
+  assetPath: Assets/FattyPolyTurretPart2/Animations/Demo/TitlePrefabs.controller
+  uploadId: 413680
