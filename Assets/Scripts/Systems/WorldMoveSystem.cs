@@ -23,7 +23,8 @@ public class WorldMoveSystem : MonoBehaviour
     [SerializeField] 
     private Color                   _color;
     private float                   ChangeBiomCurrentDistance;
-    private float                   SpawnTreeCurrentDistance;
+    private float                   SpawnDecorationCurrentDistance;
+    private float                   SpawnEnemyCurrentDistance;
 
     private void Start()
     {
@@ -69,26 +70,57 @@ public class WorldMoveSystem : MonoBehaviour
 
     private void MoveDecorations()
     {
-        SpawnTreeCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
+        SpawnDecorationCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
         
-        if(SpawnTreeCurrentDistance > _generator.CurrentDecorationLenght)
+        if(SpawnDecorationCurrentDistance > _generator.CurrentDecorationLenght)
         {
-            float Distance = SpawnTreeCurrentDistance - _generator.CurrentDecorationLenght;
-            var NewTree = _generator.GetDecoration();
+            float Distance = SpawnDecorationCurrentDistance - _generator.CurrentDecorationLenght;
+            var NewDecoration = _generator.GetDecoration();
 
             int RandomNumber = Random.Range(0,2);
 
             float DBS = RandomNumber == 0 ? _distanceBetweenSides : -_distanceBetweenSides;
 
-            NewTree.gameObject.transform.SetParent(_parent);
+            NewDecoration.gameObject.transform.SetParent(_parent);
             Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, 0, DBS / 2 + Random.Range(-_sidesWidth/2, _sidesWidth/2));
-            NewTree.transform.position = Position;
-            NewTree.transform.eulerAngles += Vector3.up * Random.Range(0,360);  
-            NewTree.transform.localScale = Vector3.one * Random.Range(NewTree.ScaleMin, NewTree.ScaleMax);  
-            SpawnTreeCurrentDistance = 0;      
+            NewDecoration.transform.position = Position;
+            NewDecoration.transform.eulerAngles += Vector3.up * Random.Range(0,360);  
+            NewDecoration.transform.localScale = Vector3.one * Random.Range(NewDecoration.ScaleMin, NewDecoration.ScaleMax);  
+            SpawnDecorationCurrentDistance = 0;      
         }
 
         foreach (var item in _generator.DecorationsPool)
+        {
+            item.transform.position -= Vector3.right * _velocity * Time.fixedDeltaTime / 25;
+
+            if(Mathf.Abs(item.transform.position.x) > _sidesHeight / 2)
+            {
+                item.gameObject.SetActive(false);
+            }
+        }        
+    }
+
+    private void MoveEnemies()
+    {
+        SpawnEnemyCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
+        
+        if(SpawnEnemyCurrentDistance > _generator.CurrentEnemyLenght)
+        {
+            float Distance = SpawnEnemyCurrentDistance - _generator.CurrentEnemyLenght;
+
+            var NewEnemy = _generator.GetEnemy();
+
+            int RandomNumber = Random.Range(0,2);
+
+            float DBS = RandomNumber == 0 ? _distanceBetweenSides : -_distanceBetweenSides;
+
+            NewEnemy.transform.SetParent(_parent);
+            Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, NewEnemy.transform.position.y, DBS / 2 + Random.Range(-_sidesWidth/2, _sidesWidth/2));
+            NewEnemy.transform.position = Position;
+            SpawnEnemyCurrentDistance = 0;      
+        }
+
+        foreach (var item in _generator.EnemiesPool)
         {
             item.transform.position -= Vector3.right * _velocity * Time.fixedDeltaTime / 25;
 
@@ -122,5 +154,7 @@ public class WorldMoveSystem : MonoBehaviour
         MoveDecorations();
 
         ChangeBiom();
+
+        MoveEnemies();
     }
 }

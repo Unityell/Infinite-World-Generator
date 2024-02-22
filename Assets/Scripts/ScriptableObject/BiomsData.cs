@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BiomsData")]
@@ -23,4 +24,7 @@ public class BiomsData : ScriptableObject
     [SerializeField] 
     protected DecorationData                _decorationData;
     public DecorationData DecorationData => _decorationData;
+    [SerializeField] 
+    protected List<Enemy>                   _Enemies;
+    public List<Enemy> Enemies =>           _Enemies;
 }

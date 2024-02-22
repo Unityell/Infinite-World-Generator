@@ -16,6 +16,10 @@ public class WorldGeneratorSystem : MonoBehaviour
     public List<Decoration>                     DecorationsPool;
     [HideInInspector] public float              CurrentDecorationLenght;
     private List<string>                        _decorationsName = new List<string>();
+    public List<Enemy>                          EnemiesPool;
+    [HideInInspector] public float              CurrentEnemyLenght;
+    private List<string>                        EnemiesName = new List<string>();
+    
 
     private void Start()
     {
@@ -69,20 +73,55 @@ public class WorldGeneratorSystem : MonoBehaviour
 
         var RandomUnit = _currentBiom.DecorationData.Decorations.Find(x => x.GetName() == RandomName);
         
-        var Tree = DecorationsPool.Find(x => x.GetName() == RandomUnit.GetName() && !x.gameObject.activeInHierarchy);
+        var Decoration = DecorationsPool.Find(x => x.GetName() == RandomUnit.GetName() && !x.gameObject.activeInHierarchy);
 
-        if(!Tree)
+        if(!Decoration)
         {
-            Tree = Instantiate(RandomUnit);
-            DecorationsPool.Add(Tree);
+            Decoration = Instantiate(RandomUnit);
+            DecorationsPool.Add(Decoration);
         }
         else
         {
-            Tree.gameObject.SetActive(true);
+            Decoration.gameObject.SetActive(true);
         }
 
-        CurrentDecorationLenght = Random.Range(Tree.SpawnDistanceMin, Tree.SpawnDistanceMax);  
+        CurrentDecorationLenght = Random.Range(Decoration.SpawnDistanceMin, Decoration.SpawnDistanceMax);  
 
-        return Tree;
+        return Decoration;
+    }
+
+    public Enemy GetEnemy()
+    {
+        if(_bioms.Count == 0) return null;
+
+        EnemiesName.Clear();
+
+        for (int i = 0; i < _currentBiom.Enemies.Count; i++)
+        {
+            for (int a = 0; a < _currentBiom.Enemies[i].SpawnChance; a++)
+            {
+               EnemiesName.Add(_currentBiom.Enemies[i].GetName());
+            }
+        }
+
+        string RandomName = EnemiesName[Random.Range(0, EnemiesName.Count)];
+
+        var RandomUnit = _currentBiom.Enemies.Find(x => x.GetName() == RandomName);
+        
+        var Enemy = EnemiesPool.Find(x => x.GetName() == RandomUnit.GetName() && !x.gameObject.activeInHierarchy);
+
+        if(!Enemy)
+        {
+            Enemy = Instantiate(RandomUnit);
+            EnemiesPool.Add(Enemy);
+        }
+        else
+        {
+            Enemy.gameObject.SetActive(true);
+        }
+
+        CurrentEnemyLenght = Random.Range(Enemy.SpawnDistanceMin, Enemy.SpawnDistanceMax);  
+
+        return Enemy;
     }
 }

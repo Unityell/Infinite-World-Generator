@@ -1,30 +1,44 @@
 using UnityEngine;
+using Zenject;
 
 public class CameraMovement : MonoBehaviour
 {
-    [SerializeField] 
-    private float   _springArmMin;
-    [SerializeField] 
-    private float   _springArmMax;
-    [SerializeField] 
-    private float   _scrollSpeed;
-    private Vector3 _savePositionMax;
-    private Vector3 _savePositionMin;
+    [Inject] EventBus EventBus;
+    [SerializeField, ReadOnly] EnumCameraMode _state;
+    [SerializeField] private Transform _gameModePosition;
+    [SerializeField] private Transform _updatePosition;
+    [SerializeField] private float LerpSpeed;
 
     private void Start()
     {
-        _savePositionMax = transform.position + transform.forward * _springArmMax;
-        _savePositionMin = transform.position + transform.forward * _springArmMin;
+        EventBus.Event += SignalBox;
+    }
+
+    void SignalBox(object Obj)
+    {
+        if(Obj.GetType() == typeof(CameraModeSignal))
+        {
+            CameraModeSignal Signal = Obj as CameraModeSignal;
+            ChangeCameraMode(Signal.State);
+        }
+    }
+
+    void ChangeCameraMode(EnumCameraMode NewState)
+    {
+        _state = NewState;
     }
 
     private void Update()
     {
-        float scroll = Input.GetAxisRaw("Mouse ScrollWheel");
+        Transform Position = _state == EnumCameraMode.Game ? _gameModePosition : _updatePosition;
 
-        if (scroll != 0)
-        {
-            Vector3 vector = scroll < 0 ? _savePositionMin : _savePositionMax;
-            transform.position = Vector3.MoveTowards(transform.position, vector, Time.deltaTime * _scrollSpeed);
-        }
+        transform.position = Vector3.Lerp(transform.position, Position.position, Time.deltaTime * LerpSpeed);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Position.rotation, Time.deltaTime * LerpSpeed);
+    }
+
+    void OnDestroy()
+    {
+        EventBus.Event -= SignalBox;
     }
 }
