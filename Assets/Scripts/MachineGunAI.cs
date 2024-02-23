@@ -1,15 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
+using System;
+using Unity.VisualScripting;
 
 public class MachineGunAI : AIComponent
 {
     [SerializeField, ReadOnly] MachineGun Gun;
     [SerializeField] float RadarRadius = 1f;
     [SerializeField] float ScanTimer;
-    HashSet<Transform> Targets = new HashSet<Transform>();
+    HashSet<Enemy> Targets = new HashSet<Enemy>();
+    Enemy CurrentTarget;
+
+    [Header("Debug Draw")]
+    [SerializeField] float boxWidth = 2f;
+    [SerializeField] float boxLength = 4f;
+    [SerializeField] float boxDeep = 4f;
+    [SerializeField] Vector3 boxCenterOffset = Vector3.zero;
 
     void OnValidate()
     {
@@ -28,48 +36,31 @@ public class MachineGunAI : AIComponent
 
     void OnDrawGizmosSelected()
     {
-        float angleStep = 360f / 36;
+        Vector3 boxCenter = transform.position;
+        boxCenter.y = 0.1f;
+        boxCenter += boxCenterOffset;
 
-        Vector3 prevPoint = Vector3.zero;
-        Vector3 firstPoint = Vector3.zero;
+        Vector3 halfSize = new Vector3(boxWidth * 0.5f, 0.1f, boxLength * 0.5f);
+        Vector3 corner = boxCenter - halfSize;
 
-        for (int i = 0; i <= 36; i++)
-        {
-            float angle = angleStep * i;
-            float x = transform.position.x + Mathf.Sin(Mathf.Deg2Rad * angle) * RadarRadius;
-            float y = transform.position.y;
-            float z = transform.position.z + Mathf.Cos(Mathf.Deg2Rad * angle) * RadarRadius;
+        Gizmos.matrix = Matrix4x4.identity;
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(corner + halfSize + Vector3.up * boxDeep / 2, new Vector3(boxWidth, boxDeep, boxLength));
+    } 
 
-            Vector3 newPoint = new Vector3(x, y, z);
-
-            if (i > 0)
-            {
-                Debug.DrawLine(prevPoint, newPoint, Color.green);
-            }
-            else
-            {
-                firstPoint = newPoint;
-            }
-
-            prevPoint = newPoint;
-        }
-
-        Debug.DrawLine(prevPoint, firstPoint, Color.green);
-    }
-
-    Transform GetClosestTarget()
+    Enemy GetClosestTarget(Vector3 Center)
     {
         if (Targets.Count == 0)
             return null;
 
-        Transform closestTarget = null;
+        Enemy closestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
         foreach (var target in Targets)
         {
             if (target == null)
                 continue;
 
-            float distanceSqr = (target.position - transform.position).sqrMagnitude;
+            float distanceSqr = (target.transform.position - Center).sqrMagnitude;
             if (distanceSqr < closestDistanceSqr)
             {
                 closestDistanceSqr = distanceSqr;
@@ -81,42 +72,57 @@ public class MachineGunAI : AIComponent
 
     IEnumerator Radar()
     {
+        Vector3 halfSize = new Vector3(boxWidth * 0.5f, 0.1f, boxLength * 0.5f);
+        Vector3 scanBoxSize = new Vector3(boxWidth, boxDeep, boxLength) / 2;
+
         while (gameObject.activeSelf)
         {
-            var CurrentTargets = Physics.OverlapSphere(transform.position, RadarRadius, LayerMask.GetMask("Enemy")).ToList();
+            Vector3 boxCenter = transform.position;
+            boxCenter.y = 0.1f;
+            boxCenter += boxCenterOffset;
 
-            for (int i = 0; i < CurrentTargets.Count; i++)
-            {
-                if (!CurrentTargets[i].gameObject.activeSelf)
-                {
-                    CurrentTargets.Remove(CurrentTargets[i]);
-                }
-            }
+            Vector3 corner = boxCenter - halfSize;
+
+            Vector3 centerUp = corner + halfSize + Vector3.up * boxDeep / 2;
+
+            var CurrentTargets = Physics.OverlapBox(centerUp, scanBoxSize, Quaternion.identity, LayerMask.GetMask("Enemy"));
+
+            CurrentTargets = CurrentTargets.Where(target => target.gameObject.activeSelf).ToArray();
 
             Targets.Clear();
+            Targets.AddRange(CurrentTargets.Select(target => target.GetComponent<Enemy>()));
 
-            for (int i = 0; i < CurrentTargets.Count; i++)
-            {
-                Targets.Add(CurrentTargets[i].transform);
-            }
+            var NonTargetUnits = new HashSet<Enemy>(Targets.Where(unit => !unit.IsTarget));
 
             if (Gun)
             {
-                var ClosestEnemy = GetClosestTarget();
+                if (NonTargetUnits.Count > 0)
+                {
+                    Targets.Clear();
+                    Targets.AddRange(NonTargetUnits);
+                }
 
-                if (ClosestEnemy)
-                {
-                    Gun.ChangeState(EnumWeaponState.OnTarget);
-                    Gun.TargetPosition = ClosestEnemy;
-                }
-                else
-                {
-                    Gun.ChangeState(EnumWeaponState.NoTarget);
-                    Gun.TargetPosition = null;
-                }
+                var closestTargetPosition = CurrentTarget ? CurrentTarget.transform.position : transform.position;
+                var closestTarget = GetClosestTarget(closestTargetPosition);
+                SetTarget(closestTarget);
             }
 
             yield return new WaitForSeconds(ScanTimer);
+        }
+    }
+
+    void SetTarget(Enemy ClosestEnemy)
+    {
+        if (ClosestEnemy)
+        {
+            ClosestEnemy.IsTarget = true;
+            Gun.ChangeState(EnumWeaponState.OnTarget);
+            Gun.TargetPosition = ClosestEnemy.transform;
+        }
+        else
+        {
+            Gun.ChangeState(EnumWeaponState.NoTarget);
+            Gun.TargetPosition = null;
         }
     }
 }

@@ -36,7 +36,7 @@ public abstract class Weapon : MonoBehaviour
                     var Bullet = GetBullet();
                     Bullet.transform.position = ShootPosition[i].transform.position;
                     Bullet.transform.rotation = Quaternion.LookRotation(ShootPosition[i].transform.forward);
-                    Bullet.Setup();
+                    Bullet.Setup(TargetPosition);
                 }                
             }
 
@@ -107,8 +107,6 @@ public abstract class Weapon : MonoBehaviour
         Vector3 cannonDirection = Gun.transform.forward;
 
         float dotProduct = Vector3.Dot(directionToTarget, cannonDirection);
-
-        print(dotProduct);
 
         return dotProduct >= 0.9f;
     }

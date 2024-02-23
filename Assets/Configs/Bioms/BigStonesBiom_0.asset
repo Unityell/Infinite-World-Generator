@@ -19,5 +19,4 @@ MonoBehaviour:
   _railsData: {fileID: 11400000, guid: 0466fb345b239c5468d0b4ac55494e65, type: 2}
   _decorationData: {fileID: 11400000, guid: a6bdd1cd082f2964ebf6469209d7a2a6, type: 2}
   _Enemies:
-  - {fileID: -7467994495496463399, guid: c84ce9e1cf48e3f4f90aa8256c232ca6, type: 3}
-  - {fileID: -7467994495496463399, guid: 2aa2302d71b42ca4b82739948de9fcc3, type: 3}
+  - {fileID: -7467994495496463399, guid: 7646c67bbdf6cf447bd7f4f7b159b787, type: 3}

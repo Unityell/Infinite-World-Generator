@@ -20,4 +20,6 @@ MonoBehaviour:
   _decorationData: {fileID: 11400000, guid: 7e32edca209f5314d90e19a71001461a, type: 2}
   _Enemies:
   - {fileID: -7467994495496463399, guid: c84ce9e1cf48e3f4f90aa8256c232ca6, type: 3}
+  - {fileID: -7467994495496463399, guid: 782e66472925abb49a2f8273f5919471, type: 3}
+  - {fileID: -7467994495496463399, guid: 0112f6ead325c174aa2bfe508b8692ef, type: 3}
   - {fileID: -7467994495496463399, guid: 2aa2302d71b42ca4b82739948de9fcc3, type: 3}
