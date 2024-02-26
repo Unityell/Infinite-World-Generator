@@ -115,7 +115,7 @@ public class WorldMoveSystem : MonoBehaviour
             float DBS = RandomNumber == 0 ? _distanceBetweenSides : -_distanceBetweenSides;
 
             NewEnemy.transform.SetParent(_parent);
-            Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, NewEnemy.transform.position.y, DBS / 2 + Random.Range(-_sidesWidth/2, _sidesWidth/2));
+            Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, NewEnemy.transform.position.y, DBS / 2 + Random.Range(-_sidesWidth / 2 + 5, _sidesWidth / 2 - 5));
             NewEnemy.transform.position = Position;
             SpawnEnemyCurrentDistance = 0;      
         }

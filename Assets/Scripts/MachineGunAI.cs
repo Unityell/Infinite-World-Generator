@@ -118,11 +118,13 @@ public class MachineGunAI : AIComponent
             ClosestEnemy.IsTarget = true;
             Gun.ChangeState(EnumWeaponState.OnTarget);
             Gun.TargetPosition = ClosestEnemy.transform;
+            CurrentTarget = ClosestEnemy;
         }
         else
         {
             Gun.ChangeState(EnumWeaponState.NoTarget);
             Gun.TargetPosition = null;
+            CurrentTarget = null;
         }
     }
 }

@@ -7,7 +7,7 @@ public abstract class Widgets : MonoBehaviour
 
     [Header("Widget")]
     [SerializeField] 
-    protected GameObject        Widget;
+    protected GameObject Widget;
 
     protected virtual void Subscribe()
     {

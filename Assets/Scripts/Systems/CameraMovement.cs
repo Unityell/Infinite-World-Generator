@@ -4,9 +4,9 @@ using Zenject;
 public class CameraMovement : MonoBehaviour
 {
     [Inject] EventBus EventBus;
-    [SerializeField, ReadOnly] EnumCameraMode _state;
-    [SerializeField] private Transform _gameModePosition;
-    [SerializeField] private Transform _updatePosition;
+    [SerializeField, ReadOnly] EnumGameMode State;
+    [SerializeField] private Transform GameModePosition;
+    [SerializeField] private Transform UpdatePosition;
     [SerializeField] private float LerpSpeed;
 
     private void Start()
@@ -16,21 +16,21 @@ public class CameraMovement : MonoBehaviour
 
     void SignalBox(object Obj)
     {
-        if(Obj.GetType() == typeof(CameraModeSignal))
+        if(Obj.GetType() == typeof(GameModeSignal))
         {
-            CameraModeSignal Signal = Obj as CameraModeSignal;
+            GameModeSignal Signal = Obj as GameModeSignal;
             ChangeCameraMode(Signal.State);
         }
     }
 
-    void ChangeCameraMode(EnumCameraMode NewState)
+    void ChangeCameraMode(EnumGameMode NewState)
     {
-        _state = NewState;
+        State = NewState;
     }
 
     private void Update()
     {
-        Transform Position = _state == EnumCameraMode.Game ? _gameModePosition : _updatePosition;
+        Transform Position = State == EnumGameMode.Game ? GameModePosition : UpdatePosition;
 
         transform.position = Vector3.Lerp(transform.position, Position.position, Time.deltaTime * LerpSpeed);
 

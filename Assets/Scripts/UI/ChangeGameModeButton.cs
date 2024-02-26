@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ChangeCemeraModeButton : EventBusSignaler
+public class ChangeGameModeButton : EventBusSignaler
 {
-    private EnumCameraMode State;
+    private EnumGameMode State;
     [SerializeField] private Sprite GameModeIcon;
     [SerializeField] private Sprite UpdateModeIcon;
     Image Image;
@@ -17,18 +17,18 @@ public class ChangeCemeraModeButton : EventBusSignaler
     {
         switch (State)
         {
-            case EnumCameraMode.Game :
+            case EnumGameMode.Game :
                 Image.sprite = GameModeIcon;
-                State = EnumCameraMode.Update;
+                State = EnumGameMode.Update;
                 break;
-            case EnumCameraMode.Update :
+            case EnumGameMode.Update :
                 Image.sprite = UpdateModeIcon;
-                State = EnumCameraMode.Game;
+                State = EnumGameMode.Game;
                 break;
             default: break;
         }
 
-        CameraModeSignal Signal = new CameraModeSignal(State);
+        GameModeSignal Signal = new GameModeSignal(State);
         EventBus.Invoke(Signal);
     }
 }
