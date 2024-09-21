@@ -18,5 +18,4 @@ MonoBehaviour:
   _maxBiomLenght: 500
   _railsData: {fileID: 11400000, guid: 0466fb345b239c5468d0b4ac55494e65, type: 2}
   _decorationData: {fileID: 11400000, guid: a6bdd1cd082f2964ebf6469209d7a2a6, type: 2}
-  _Enemies:
-  - {fileID: -7467994495496463399, guid: 7646c67bbdf6cf447bd7f4f7b159b787, type: 3}
+  _EnemyData: {fileID: 11400000, guid: e0df1b43ba1a78f43a0d1e575a7710c8, type: 2}

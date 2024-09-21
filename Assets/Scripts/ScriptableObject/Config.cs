@@ -6,10 +6,10 @@ public class Config : ScriptableObject
 {
     [Header("GameSettings")]
     [SerializeField] 
-    protected float                 _maxGameSpeed;
+    [Range(0, 7500)] protected float                 _maxGameSpeed;
     public float MaxGameSpeed =>    _maxGameSpeed; 
 
-    [SerializeField, Range(0, 100)] 
+    [SerializeField, Range(0.1f, 1000)] 
     protected float                 _acceleration;
     public float Acceleration =>    _acceleration;  
 

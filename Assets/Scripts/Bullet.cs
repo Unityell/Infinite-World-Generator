@@ -6,10 +6,12 @@ public class Bullet : MonoBehaviour
     [SerializeField] float BulletSpeed;
     Vector3 StartPos;
     Transform TargetPos;
+    EventBus EventBus;
 
 
-    public void Setup(Transform TargetPos)
+    public void Setup(Transform TargetPos, EventBus EventBus)
     {
+        this.EventBus = EventBus;
         this.TargetPos = TargetPos;
         StartPos = transform.position;
     }
@@ -28,6 +30,7 @@ public class Bullet : MonoBehaviour
 
             if(transform.position == TargetPos.position)
             {
+                EventBus.Invoke(new CoinSignal(1));
                 TargetPos.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }            
@@ -40,6 +43,7 @@ public class Bullet : MonoBehaviour
 
             if (Physics.Linecast(transform.position, newPosition, out hit, LayerMask.GetMask("Enemy")))
             {
+                EventBus.Invoke(new CoinSignal(1));
                 hit.collider.gameObject.SetActive(false);
                 gameObject.SetActive(false);
             }

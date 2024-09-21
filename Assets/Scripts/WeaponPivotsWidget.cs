@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WeaponPivotsWidget : Widgets
@@ -16,7 +17,9 @@ public class WeaponPivotsWidget : Widgets
 
     protected override void SignalBox(object Obj)
     {
-        if(Obj.GetType() == typeof(GameModeSignal))
+        Type Type = Obj.GetType();
+
+        if(Type == typeof(GameModeSignal))
         {
             GameModeSignal Signal = Obj as GameModeSignal; 
 
@@ -32,7 +35,7 @@ public class WeaponPivotsWidget : Widgets
             Enable(false);
         }
 
-        if(Obj.GetType() == typeof(WeaponPivotsSignal))
+        if(Type == typeof(WeaponPivotsSignal))
         {
             WeaponPivotsSignal Signal = Obj as WeaponPivotsSignal; 
 

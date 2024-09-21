@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
-    [SerializeField, Range(0, 100)] 
-    public float SpawnChance;
-    public float SpawnDistanceMin;
-    public float SpawnDistanceMax;
+    [HideInInspector] public float ScaleMin;
+    [HideInInspector] public float ScaleMax;
+
+    public void Initialization(float ScaleMin, float ScaleMax)
+    {
+        this.ScaleMin = ScaleMin;
+        this.ScaleMax = ScaleMax;
+    }
+    
     [ReadOnly] public bool IsTarget;
     Animator Anim;
 
@@ -22,5 +27,10 @@ public class Enemy : Unit
     public void Death()
     {
         Anim.SetInteger("State", 4);
+    }
+
+    void FixedUpdate()
+    {
+        transform.rotation = Quaternion.LookRotation((transform.position - Vector3.right * 10).normalized);
     }
 }

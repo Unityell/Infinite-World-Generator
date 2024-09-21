@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    protected EventBus EventBus;
     [SerializeField, ReadOnly] protected EnumWeaponState State;
     [ReadOnly] public Transform TargetPosition;
     [SerializeField] protected Transform Turret;
@@ -15,8 +16,9 @@ public abstract class Weapon : MonoBehaviour
     [SerializeField] protected Transform[] ShootPosition;
     [SerializeField, ReadOnly] protected List<Bullet> BulletPool;
 
-    void Start()
+    public void Initialization(EventBus EventBus)
     {
+        this.EventBus = EventBus;
         StartCoroutine(Shoot());
     }
 
@@ -36,7 +38,7 @@ public abstract class Weapon : MonoBehaviour
                     var Bullet = GetBullet();
                     Bullet.transform.position = ShootPosition[i].transform.position;
                     Bullet.transform.rotation = Quaternion.LookRotation(ShootPosition[i].transform.forward);
-                    Bullet.Setup(TargetPosition);
+                    Bullet.Setup(TargetPosition, EventBus);
                 }                
             }
 

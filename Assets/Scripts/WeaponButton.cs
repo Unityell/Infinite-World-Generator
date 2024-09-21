@@ -62,6 +62,7 @@ public class WeaponButton : MonoBehaviour
         {
             transform.position = Camera.WorldToScreenPoint(Position.position);
         }
+        
         if(Pivot.State == EnumWeaponPivotState.Active)
         {
             gameObject.SetActive(false);

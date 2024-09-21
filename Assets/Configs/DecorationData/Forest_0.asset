@@ -12,11 +12,107 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43430310785d89f4fbe0c8d8fb18c85e, type: 3}
   m_Name: Forest_0
   m_EditorClassIdentifier: 
-  _decorations:
-  - {fileID: -5504793177095161630, guid: 1dbedd825943261428c5a0d04bc14be6, type: 3}
-  - {fileID: 7775547322354987048, guid: 76e6d434bacf8b740aaed50eee69e9b0, type: 3}
-  - {fileID: -3166646565322394634, guid: 40606129580eadd43b246d91cf81246a, type: 3}
-  - {fileID: 2368876069378351798, guid: 15d7170cf345c0846a7cf818d51294d5, type: 3}
-  - {fileID: -5077034766566067408, guid: 3fdffab911a587a498f56cd3c94f31a6, type: 3}
-  - {fileID: 851315018428849963, guid: bfc4317e374ef0847afc52390854bb77, type: 3}
-  - {fileID: 3203497040072855489, guid: 87adbd3d18d216a428c434e69212db13, type: 3}
+  _LineLenght: 9
+  _MaxCountInLine: 9
+  _MinCountInLine: 0
+  _Decorations:
+  - Prefab: {fileID: 8833578518778972449, guid: c12360b37d350f04d882e23fec1591e8, type: 3}
+    SpawnChance: 5
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 351710188015375989, guid: c5ac446aa45d74544b21de2bc146f0f4, type: 3}
+    SpawnChance: 5
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 3436968210287919478, guid: de14e517db723e94ba59fc92a17cdc0a, type: 3}
+    SpawnChance: 5
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 8355552047870257087, guid: a42a678dbd0fb4d419c8e7000d5d919b, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 7283252199994302323, guid: 82424370f330ee24ca4a06f3376ff9d2, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 851315018428849963, guid: bfc4317e374ef0847afc52390854bb77, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 3203497040072855489, guid: 87adbd3d18d216a428c434e69212db13, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 602950055223252510, guid: f0bbadefe25b155499984d0959dec03c, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 5325644633984161106, guid: 83c16cf9f22c3c4499c80cdf54b6af25, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 5419062807378020304, guid: b164fe598b7dd9a488ed0c8a2e3b295c, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 1593265625038481128, guid: e955d3ab1fa8c694fb9cdec44d204e77, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 5070604023387767648, guid: b28cedf1d049ea4468329193ff0f525e, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 2639338889802515457, guid: 552354a91eefdad4292b13b4bc0ac7fe, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: -5504793177095161630, guid: 1dbedd825943261428c5a0d04bc14be6, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 7775547322354987048, guid: 76e6d434bacf8b740aaed50eee69e9b0, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: -3166646565322394634, guid: 40606129580eadd43b246d91cf81246a, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: 2368876069378351798, guid: 15d7170cf345c0846a7cf818d51294d5, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2
+  - Prefab: {fileID: -5077034766566067408, guid: 3fdffab911a587a498f56cd3c94f31a6, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 1
+  - Prefab: {fileID: 1219574253440144534, guid: 3ca448b315da69a49b8a00e731286e04, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2.5
+  - Prefab: {fileID: 8175599264348567831, guid: 7c81ff2ef492d3d4fa0f56e67605901f, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2.5
+  - Prefab: {fileID: 1935994643066380040, guid: 5f4d90fd1c73b9c4e8cbe5507aafee70, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2.5
+  - Prefab: {fileID: 1294910553228890112, guid: 45ee3ee8e62778940b32d8bf2edb3192, type: 3}
+    SpawnChance: 1
+    ScaleMin: 1
+    ScaleMax: 2.5
+  - Prefab: {fileID: 5289580794509531657, guid: f904f016b6eb3b64da2ad75d9b957bee, type: 3}
+    SpawnChance: 1
+    ScaleMin: 0.5
+    ScaleMax: 2
+  - Prefab: {fileID: 327705197575144843, guid: f6f03d1eb20d4a24e8f749d9b2369ea8, type: 3}
+    SpawnChance: 1
+    ScaleMin: 0.5
+    ScaleMax: 2
+  - Prefab: {fileID: 565585135500634319, guid: 1ce7bab6ffac62341946687ae2bb5486, type: 3}
+    SpawnChance: 1
+    ScaleMin: 0.5
+    ScaleMax: 2

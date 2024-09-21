@@ -18,16 +18,9 @@ public class InfoPannel : Widgets
 
     protected override void SignalBox(object Obj)
     {
-        switch (Obj)
+        if(Obj.GetType() == typeof(SelectedWeaponInfoSignal))
         {
-            case "CloseInfoPannel" :
-                Enable(false);
-                break;
-            default: break;
-        }
-        if(Obj.GetType() == typeof(CreateWeaponSignal))
-        {
-            CreateWeaponSignal Signal = Obj as CreateWeaponSignal;
+            SelectedWeaponInfoSignal Signal = Obj as SelectedWeaponInfoSignal;
             
             Icon.sprite = Signal.Icon;
             PriceText.text = Signal.Price.ToString();
@@ -36,11 +29,6 @@ public class InfoPannel : Widgets
             NameText.text = Signal.Name.Find(x => x.Lang == GameInfo.GetLang()).Text;
 
             Enable(true);
-        }
-
-        if(Obj.GetType() == typeof(PivotSignal) || Obj.GetType() == typeof(GameModeSignal))
-        {
-            Enable(false);
         }
     }
 }

@@ -2,10 +2,12 @@ using UnityEngine;
 
 public class Decoration : Unit
 {
-    [SerializeField, Range(0, 100)] 
-    public float SpawnChance;
-    public float SpawnDistanceMin;
-    public float SpawnDistanceMax;
-    public float ScaleMin;
-    public float ScaleMax;
+    [HideInInspector] public float ScaleMin;
+    [HideInInspector] public float ScaleMax;
+
+    public void Initialization(float ScaleMin, float ScaleMax)
+    {
+        this.ScaleMin = ScaleMin;
+        this.ScaleMax = ScaleMax;
+    }
 }

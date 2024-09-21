@@ -1,99 +1,54 @@
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class WorldMoveSystem : MonoBehaviour
 {
     [SerializeField] 
     private Config                  _config;
     [SerializeField] 
-    private WorldGeneratorSystem    _generator;
-    [SerializeField] 
-    private MeshRenderer            _ground;
-    [Header("Right side")]
-    [SerializeField] 
-    private Transform               _parent;
-    [SerializeField] 
-    private float                   _distanceBetweenSides;
-    [SerializeField] 
-    private float                   _sidesWidth;
-    [SerializeField] 
-    private float                   _sidesHeight;
+    private WorldGeneratorSystem    Generator; 
+    
+    [Header("Sides")]
     [SerializeField, ReadOnly] 
-    private float                   _velocity;
+    private float                   Velocity;
 
     [SerializeField] 
-    private Color                   _color;
+    private Color                   Color;
     private float                   ChangeBiomCurrentDistance;
-    private float                   SpawnDecorationCurrentDistance;
-    private float                   SpawnEnemyCurrentDistance;
-
+    float NextLineDistance;
+    float FrameDistance;
     private void Start()
     {
         _config.CurrentGameSpeed = 0;
-        _config.TargetGameSpeed = 0;
+        _config.TargetGameSpeed = _config.MaxGameSpeed;
         _config.CurrentDistance = 0;
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Vector3 halfSize = new Vector3(_sidesHeight / 2f, 1f, _sidesWidth / 2f);
-
-        // Первый прямоугольник
-        Vector3 center1 = Vector3.forward * (_distanceBetweenSides / 2);
-        Debug.DrawLine(center1 + new Vector3(-halfSize.x, 1f, -halfSize.z), center1 + new Vector3(halfSize.x, 1f, -halfSize.z), _color);
-        Debug.DrawLine(center1 + new Vector3(halfSize.x, 1f, -halfSize.z), center1 + new Vector3(halfSize.x, 1f, halfSize.z), _color);
-        Debug.DrawLine(center1 + new Vector3(halfSize.x, 1f, halfSize.z), center1 + new Vector3(-halfSize.x, 1f, halfSize.z), _color);
-        Debug.DrawLine(center1 + new Vector3(-halfSize.x, 1f, halfSize.z), center1 + new Vector3(-halfSize.x, 1f, -halfSize.z), _color);
-
-        // Второй прямоугольник
-        Vector3 center2 = -Vector3.forward * (_distanceBetweenSides / 2);
-        Debug.DrawLine(center2 + new Vector3(-halfSize.x, 1f, -halfSize.z), center2 + new Vector3(halfSize.x, 1f, -halfSize.z), _color);
-        Debug.DrawLine(center2 + new Vector3(halfSize.x, 1f, -halfSize.z), center2 + new Vector3(halfSize.x, 1f, halfSize.z), _color);
-        Debug.DrawLine(center2 + new Vector3(halfSize.x, 1f, halfSize.z), center2 + new Vector3(-halfSize.x, 1f, halfSize.z), _color);
-        Debug.DrawLine(center2 + new Vector3(-halfSize.x, 1f, halfSize.z), center2 + new Vector3(-halfSize.x, 1f, -halfSize.z), _color);
-    }
 
     private void MoveGround()
     {
-        _ground.material.mainTextureOffset -= Vector2.right * _velocity * Time.fixedDeltaTime / (_ground.transform.localScale * 10);  
+        Generator.Ground.material.mainTextureOffset -= Vector2.right * FrameDistance / (Generator.Ground.transform.localScale * 10);  
 
-        foreach (var item in _generator.RailsPool)
+        foreach (var item in Generator.RailsPool)
         {
-            item.transform.position -= Vector3.right * _velocity * Time.fixedDeltaTime / 25;
+            item.transform.position -= Vector3.right * FrameDistance / 20;
 
-            if(Mathf.Abs(item.transform.position.x) > _sidesHeight / 2)
+            if(item.transform.position.x <= -(Generator.Ground.transform.localScale.x * 10) / 2)
             {
-                float Distance = Mathf.Abs(item.transform.position.x) - _sidesHeight / 2;
-                item.transform.position = (Vector3.right * (_sidesHeight / 2)) - Vector3.right * Distance;
+                float Distance = Mathf.Abs(item.transform.position.x) - (Generator.Ground.transform.localScale.x * 10) / 2;
+                item.transform.position = (Vector3.right * ((Generator.Ground.transform.localScale.x * 10) / 2)) - Vector3.right * Distance;
             }
         }        
     }
 
     private void MoveDecorations()
     {
-        SpawnDecorationCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
-        
-        if(SpawnDecorationCurrentDistance > _generator.CurrentDecorationLenght)
+        foreach (var item in Generator.DecorationsPool)
         {
-            float Distance = SpawnDecorationCurrentDistance - _generator.CurrentDecorationLenght;
-            var NewDecoration = _generator.GetDecoration();
+            item.transform.position -= Vector3.right * FrameDistance / 20;
 
-            int RandomNumber = Random.Range(0,2);
-
-            float DBS = RandomNumber == 0 ? _distanceBetweenSides : -_distanceBetweenSides;
-
-            NewDecoration.gameObject.transform.SetParent(_parent);
-            Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, 0, DBS / 2 + Random.Range(-_sidesWidth/2, _sidesWidth/2));
-            NewDecoration.transform.position = Position;
-            NewDecoration.transform.eulerAngles += Vector3.up * Random.Range(0,360);  
-            NewDecoration.transform.localScale = Vector3.one * Random.Range(NewDecoration.ScaleMin, NewDecoration.ScaleMax);  
-            SpawnDecorationCurrentDistance = 0;      
-        }
-
-        foreach (var item in _generator.DecorationsPool)
-        {
-            item.transform.position -= Vector3.right * _velocity * Time.fixedDeltaTime / 25;
-
-            if(Mathf.Abs(item.transform.position.x) > _sidesHeight / 2)
+            if(Mathf.Abs(item.transform.position.x) > (Generator.Ground.transform.localScale.x * 10) / 2)
             {
                 item.gameObject.SetActive(false);
             }
@@ -102,29 +57,11 @@ public class WorldMoveSystem : MonoBehaviour
 
     private void MoveEnemies()
     {
-        SpawnEnemyCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
-        
-        if(SpawnEnemyCurrentDistance > _generator.CurrentEnemyLenght)
+        foreach (var item in Generator.EnemiesPool)
         {
-            float Distance = SpawnEnemyCurrentDistance - _generator.CurrentEnemyLenght;
+            item.transform.position -= Vector3.right * FrameDistance / 20;
 
-            var NewEnemy = _generator.GetEnemy();
-
-            int RandomNumber = Random.Range(0,2);
-
-            float DBS = RandomNumber == 0 ? _distanceBetweenSides : -_distanceBetweenSides;
-
-            NewEnemy.transform.SetParent(_parent);
-            Vector3 Position = new Vector3(_sidesHeight / 2 - Distance, NewEnemy.transform.position.y, DBS / 2 + Random.Range(-_sidesWidth / 2 + 5, _sidesWidth / 2 - 5));
-            NewEnemy.transform.position = Position;
-            SpawnEnemyCurrentDistance = 0;      
-        }
-
-        foreach (var item in _generator.EnemiesPool)
-        {
-            item.transform.position -= Vector3.right * _velocity * Time.fixedDeltaTime / 25;
-
-            if(Mathf.Abs(item.transform.position.x) > _sidesHeight / 2)
+            if(Mathf.Abs(item.transform.position.x) > (Generator.Ground.transform.localScale.x * 10) / 2)
             {
                 item.gameObject.SetActive(false);
             }
@@ -133,21 +70,69 @@ public class WorldMoveSystem : MonoBehaviour
 
     private void ChangeBiom()
     {
-        ChangeBiomCurrentDistance += _velocity * Time.fixedDeltaTime / 25;
+        ChangeBiomCurrentDistance += FrameDistance / 20;
 
-        if(ChangeBiomCurrentDistance > _generator.CurrentBiomLenght)
+        if(ChangeBiomCurrentDistance > Generator.CurrentBiomLenght)
         {
-            _generator.ChangeBiom();
+            Generator.ChangeBiom();
             ChangeBiomCurrentDistance = 0;
         }        
     }
 
     private void FixedUpdate()
     {
-        _velocity = Mathf.Lerp(_velocity, _config.TargetGameSpeed, Time.fixedDeltaTime * _config.Acceleration);
+        Velocity = Mathf.Lerp(Velocity, _config.TargetGameSpeed, Time.fixedDeltaTime * _config.Acceleration);
 
-        _config.CurrentGameSpeed = _velocity;
-        _config.CurrentDistance += _velocity * Time.fixedDeltaTime / 25;
+        _config.CurrentGameSpeed = Velocity;
+
+        FrameDistance = Velocity * Time.fixedDeltaTime;
+
+        NextLineDistance += FrameDistance / 20;
+
+        _config.CurrentDistance += FrameDistance / 20;
+
+        if (NextLineDistance >= 7.5f)
+        {
+            NextLineDistance -= 7.5f;
+
+            List<Vector3> Points = new List<Vector3>();
+            Points.AddRange(Generator.GetPoints());
+            Points = Points.OrderBy(p => System.Guid.NewGuid()).ToList();
+
+            List<Decoration> Decorations = new List<Decoration>();
+            Decorations.AddRange(Generator.GetDecorations());
+
+            for (int i = 0; i < Points.Count && Decorations.Count > 0;)
+            {
+                int RandomNumber = Random.Range(0, Decorations.Count);
+                Vector3 newPosition = Points[0] + Vector3.right * (FrameDistance / 20 - NextLineDistance);
+                Decorations[RandomNumber].transform.position = new Vector3(newPosition.x, Decorations[RandomNumber].transform.position.y, newPosition.z);
+                Decorations[RandomNumber].transform.eulerAngles += Vector3.up * Random.Range(0, 360);  
+                Decorations[RandomNumber].transform.localScale = Vector3.one * Random.Range(Decorations[RandomNumber].ScaleMin, Decorations[RandomNumber].ScaleMax);  
+                Decorations.RemoveAt(RandomNumber);
+                Points.RemoveAt(0);
+            }
+
+            List<Enemy> Enemies = new List<Enemy>();
+            Enemies.AddRange(Generator.GetEnemies());
+
+            for (int i = 0; i < Points.Count && Enemies.Count > 0;)
+            {
+                int RandomNumber = Random.Range(0, Enemies.Count);
+                Vector3 newPosition = Points[0] + Vector3.right * (FrameDistance / 20 - NextLineDistance);
+                Enemies[RandomNumber].transform.position = new Vector3(newPosition.x, Enemies[RandomNumber].transform.position.y, newPosition.z);
+                Enemies[RandomNumber].transform.eulerAngles += Vector3.up * Random.Range(0, 360);  
+                Enemies[RandomNumber].transform.localScale = Vector3.one * Random.Range(Enemies[RandomNumber].ScaleMin, Enemies[RandomNumber].ScaleMax);  
+                Enemies.RemoveAt(RandomNumber);                
+                Points.RemoveAt(0);
+            }
+
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].gameObject.SetActive(false);
+            } 
+        }
+    
 
         MoveGround();
 

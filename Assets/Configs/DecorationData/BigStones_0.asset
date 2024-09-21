@@ -13,10 +13,45 @@ MonoBehaviour:
   m_Name: BigStones_0
   m_EditorClassIdentifier: 
   _decorations:
-  - {fileID: 5289580794509531657, guid: 19f1ef102b9affa408ea1e526ff1e82c, type: 3}
-  - {fileID: 327705197575144843, guid: a69defb867b1ccc4eacd510b5968eaeb, type: 3}
-  - {fileID: 565585135500634319, guid: 6888e98ee63e7824aab4f9ff27ad0843, type: 3}
-  - {fileID: -5504793177095161630, guid: 34d8f27291504e94dac7bf04018dd953, type: 3}
-  - {fileID: 7775547322354987048, guid: 7e1c6f8ed262ca64eb0880fee45afb94, type: 3}
-  - {fileID: -3166646565322394634, guid: 4464c343f58191e4fb7153ce8c98abaa, type: 3}
-  - {fileID: 2368876069378351798, guid: c6f8e9192cd977041a526589891418a5, type: 3}
+  - Prefab: {fileID: 5289580794509531657, guid: f904f016b6eb3b64da2ad75d9b957bee, type: 3}
+    SpawnChance: 10
+    SpawnDistanceMin: 4
+    SpawnDistanceMax: 6
+    ScaleMin: 2
+    ScaleMax: 4
+  - Prefab: {fileID: 327705197575144843, guid: f6f03d1eb20d4a24e8f749d9b2369ea8, type: 3}
+    SpawnChance: 10
+    SpawnDistanceMin: 4
+    SpawnDistanceMax: 6
+    ScaleMin: 2
+    ScaleMax: 4
+  - Prefab: {fileID: 565585135500634319, guid: 1ce7bab6ffac62341946687ae2bb5486, type: 3}
+    SpawnChance: 10
+    SpawnDistanceMin: 4
+    SpawnDistanceMax: 6
+    ScaleMin: 2
+    ScaleMax: 4
+  - Prefab: {fileID: -5504793177095161630, guid: 1dbedd825943261428c5a0d04bc14be6, type: 3}
+    SpawnChance: 2
+    SpawnDistanceMin: 1
+    SpawnDistanceMax: 2
+    ScaleMin: 0.5
+    ScaleMax: 1
+  - Prefab: {fileID: 7775547322354987048, guid: 76e6d434bacf8b740aaed50eee69e9b0, type: 3}
+    SpawnChance: 2
+    SpawnDistanceMin: 1
+    SpawnDistanceMax: 2
+    ScaleMin: 0.5
+    ScaleMax: 1
+  - Prefab: {fileID: -3166646565322394634, guid: 40606129580eadd43b246d91cf81246a, type: 3}
+    SpawnChance: 2
+    SpawnDistanceMin: 1
+    SpawnDistanceMax: 2
+    ScaleMin: 0.5
+    ScaleMax: 1
+  - Prefab: {fileID: 2368876069378351798, guid: 15d7170cf345c0846a7cf818d51294d5, type: 3}
+    SpawnChance: 2
+    SpawnDistanceMin: 1
+    SpawnDistanceMax: 2
+    ScaleMin: 0.5
+    ScaleMax: 1

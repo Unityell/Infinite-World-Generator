@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] private string _name;
+    [SerializeField, ReadOnly] protected string Name;
 
     public string GetName()
     {
-        return _name;
+        return Name;
+    }
+
+    void OnValidate()
+    {
+        Name = gameObject.name;
     }
 }

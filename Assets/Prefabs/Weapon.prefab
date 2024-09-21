@@ -10124,7 +10124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Gun: {fileID: 9167550227547717663}
   RadarRadius: 25
-  ScanTimer: 0.5
+  ScanTimer: 0.25
   boxWidth: 31.4
   boxLength: 65
   boxDeep: 10.93

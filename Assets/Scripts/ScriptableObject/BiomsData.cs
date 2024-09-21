@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "BiomsData")]
@@ -11,6 +10,8 @@ public class BiomsData : ScriptableObject
     [SerializeField] 
     protected float                         _chance;
     public float Chance =>                  _chance;
+    [SerializeField, Range(0, 9)] protected int _LineLenght;
+    public int LineLenght => _LineLenght;
     [Header("Biom Lenght")]
     [SerializeField] 
     protected float                         _minBiomLenght;
@@ -25,6 +26,6 @@ public class BiomsData : ScriptableObject
     protected DecorationData                _decorationData;
     public DecorationData DecorationData => _decorationData;
     [SerializeField] 
-    protected List<Enemy>                   _Enemies;
-    public List<Enemy> Enemies =>           _Enemies;
+    protected EnemyData                       _EnemyData;
+    public EnemyData EnemyData =>             _EnemyData;
 }

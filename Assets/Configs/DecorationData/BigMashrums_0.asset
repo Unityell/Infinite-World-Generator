@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43430310785d89f4fbe0c8d8fb18c85e, type: 3}
   m_Name: BigMashrums_0
   m_EditorClassIdentifier: 
-  _decorations:
-  - {fileID: 1219574253440144534, guid: 166b0cd074423d9459bc19f78bdef1a9, type: 3}
-  - {fileID: 8175599264348567831, guid: 8140f25fb729a4d4c81d512e43738a9f, type: 3}
-  - {fileID: 1935994643066380040, guid: 0675a1c1c85268c4896abbc17c251d59, type: 3}
-  - {fileID: 1294910553228890112, guid: faf14bd4f93960a4b9263e217c66ef1a, type: 3}
-  - {fileID: -5504793177095161630, guid: 34d8f27291504e94dac7bf04018dd953, type: 3}
-  - {fileID: 7775547322354987048, guid: 7e1c6f8ed262ca64eb0880fee45afb94, type: 3}
-  - {fileID: -3166646565322394634, guid: 4464c343f58191e4fb7153ce8c98abaa, type: 3}
+  _LineLenght: 5
+  _MaxCountInLine: 4
+  _MinCountInLine: 0
+  _Decorations:
+  - Prefab: {fileID: 1219574253440144534, guid: 3ca448b315da69a49b8a00e731286e04, type: 3}
+    SpawnChance: 1
+    ScaleMin: 0
+    ScaleMax: 0

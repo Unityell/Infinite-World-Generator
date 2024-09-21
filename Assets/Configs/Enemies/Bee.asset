@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd171f2d763003c4989fb819e8494fe5, type: 3}
+  m_Name: Bee
+  m_EditorClassIdentifier: 
+  _Enemies:
+  - Prefab: {fileID: 1358924648932640711, guid: c717f817a496cf247a92b830b355a407, type: 3}
+    SpawnChance: 1
+    SpawnDistanceMin: 2
+    SpawnDistanceMax: 3
+    ScaleMin: 3
+    ScaleMax: 4

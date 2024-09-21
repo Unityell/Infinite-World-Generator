@@ -14,11 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _name: Mushrooms field
   _chance: 10
+  _LineLenght: 9
   _minBiomLenght: 100
   _maxBiomLenght: 300
   _railsData: {fileID: 11400000, guid: 0466fb345b239c5468d0b4ac55494e65, type: 2}
   _decorationData: {fileID: 11400000, guid: a6240ce48064f474dafce89e55a7a802, type: 2}
-  _Enemies:
-  - {fileID: -7467994495496463399, guid: c84ce9e1cf48e3f4f90aa8256c232ca6, type: 3}
-  - {fileID: -7467994495496463399, guid: 782e66472925abb49a2f8273f5919471, type: 3}
-  - {fileID: -7467994495496463399, guid: 0112f6ead325c174aa2bfe508b8692ef, type: 3}
+  _EnemyData: {fileID: 11400000, guid: 9768c3cac69d1fd468fe7a5701af32c3, type: 2}

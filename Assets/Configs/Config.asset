@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48b3812d1a3faa2498452c22319bcd06, type: 3}
   m_Name: Config
   m_EditorClassIdentifier: 
-  _maxGameSpeed: 450
-  _acceleration: 1
-  TargetGameSpeed: 0
-  CurrentGameSpeed: 0
-  CurrentDistance: 0
+  _maxGameSpeed: 700
+  _acceleration: 0.1
+  TargetGameSpeed: 700
+  CurrentGameSpeed: 697.63354
+  CurrentDistance: 1641.2802
