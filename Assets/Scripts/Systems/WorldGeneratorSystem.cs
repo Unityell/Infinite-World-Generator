@@ -4,59 +4,76 @@ using Zenject;
 
 public class WorldGeneratorSystem : MonoBehaviour
 {
+    [Inject] Factory                            Factory;
     [Inject] EventBus                           EventBus;
     [Header("Debug _bioms")]
     [SerializeField] private List<BiomsData>    _bioms;
-    private BiomsData                           CurrentBiom;
+    [ReadOnly] public BiomsData                 CurrentBiom;
     private string                              _biomLastName = "";
-    private List<string>                        _biomName = new List<string>();
     [HideInInspector] public float              CurrentBiomLenght;
-    [Header("Pools")]
-    public List<Rail>                           RailsPool;
-    public List<Decoration>                     DecorationsPool;
-    private List<string>                        DecorationsName = new List<string>();
-    public List<Enemy>                          EnemiesPool;
-    private List<string>                        EnemiesName = new List<string>();
+
+    [Header("Other stuff")]
+    [SerializeField] Coin                       Coin;
+    [SerializeField] PickUp[]                   PickUps;
+
     [Header("Ground")]
-    public MeshRenderer Ground;
-
+    public MeshRenderer                         Ground;
     List<Vector3> Points = new List<Vector3>();
-
-    [SerializeField] Transform DecorationsParent;
-    [SerializeField] Transform EnemiesParent;
 
     private void Start()
     {
         ChangeBiom();
+        BuildStartRoad();
+    }
+
+    void BuildStartRoad()
+    {
+        float Number = 102;
+
+        for (int i = 0; i < 35; i++)
+        {
+            Factory.Create<Road>(CurrentBiom.RoadsData.Roads[Random.Range(0, CurrentBiom.RoadsData.Roads.Count)].gameObject, Vector3.right * Number, Quaternion.Euler(0, 90, 0));
+            Number -= 6;
+        }
     }
 
     public void ChangeBiom()
     {
-        if(_bioms.Count == 0) return;
+        if (_bioms.Count == 0) return;
 
-        _biomName.Clear();
-        for (int i = 0; i < _bioms.Count; i++)
+        float totalChance = 0;
+
+        foreach (var biom in _bioms)
         {
-            for (int a = 0; a < _bioms[i].Chance; a++)
+            if (biom.Name != _biomLastName)
             {
-                if(_bioms[i].Name == _biomLastName) continue;
-                _biomName.Add(_bioms[i].Name);
+                totalChance += biom.Chance;
             }
         }
-        string RandomName = _biomName[Random.Range(0, _biomName.Count)];
-        if(_bioms.Count == 1)
+
+        float randomValue = Random.Range(0, totalChance);
+
+        float cumulativeChance = 0;
+
+        foreach (var biom in _bioms)
         {
-            CurrentBiom = _bioms[0];
-        }
-        else
-        {
-            CurrentBiom = _bioms.Find(x => x.Name == RandomName);
-            _biomLastName = CurrentBiom.Name;            
+            if (biom.Name != _biomLastName)
+            {
+                cumulativeChance += biom.Chance;
+
+                if (randomValue < cumulativeChance)
+                {
+                    CurrentBiom = biom;
+                    _biomLastName = CurrentBiom.Name;
+                    break;
+                }
+            }
         }
 
-        CurrentBiomLenght = Random.Range(CurrentBiom.MinBiomLenght, CurrentBiom.MaxBiomLenght);    
-        BiomInfoSignal Signal = new BiomInfoSignal(CurrentBiom.Name);
-        EventBus.Invoke(Signal);      
+        CurrentBiomLenght = Random.Range(CurrentBiom.MinBiomLenght, CurrentBiom.MaxBiomLenght);
+
+        BiomInfoSignal signal = new BiomInfoSignal(CurrentBiom.Name);
+        EventBus.Invoke(signal);
     }
 
     public List<Vector3> GetPoints()
@@ -65,13 +82,15 @@ public class WorldGeneratorSystem : MonoBehaviour
         
         float Number = 3.75f;
 
+        var Multiply = Application.platform != RuntimePlatform.Android ? 0.5f : 1; 
+
         for (int i = 1; i < CurrentBiom.LineLenght + 1; i++)
         {
             Number += 7.5f;
 
             Vector3 Point = Vector3.zero;
             Point.x = (Ground.transform.localScale.x * 10) / 2 - 3.75f;
-            Point.z = Number;
+            Point.z = Number + 7.5f;
             Points.Add(Point);
             Point.z *= -1;
             Points.Add(Point);
@@ -82,99 +101,74 @@ public class WorldGeneratorSystem : MonoBehaviour
 
     public List<Decoration> GetDecorations()
     {
-        if(_bioms.Count == 0) return null;
+        if (_bioms.Count == 0) return null;
 
-       DecorationsName.Clear();
+        List<DecorationSettings> decorations = CurrentBiom.DecorationData.Decorations;
 
-        for (int i = 0; i < CurrentBiom.DecorationData.Decorations.Count; i++)
+        float totalChance = 0f;
+
+        foreach (var decoration in decorations)
         {
-            for (int a = 0; a < CurrentBiom.DecorationData.Decorations[i].SpawnChance; a++)
+            if (decoration != null)
             {
-               DecorationsName.Add(CurrentBiom.DecorationData.Decorations[i].Prefab.GetName());
+                totalChance += decoration.SpawnChance;
             }
         }
 
-        int RandomNumberOfObjectsInLine = Random.Range(CurrentBiom.DecorationData.MinCountInLine, CurrentBiom.DecorationData.MaxCountInLine) * 2;
+        int randomNumberOfObjectsInLine = Mathf.CeilToInt(Random.Range(CurrentBiom.DecorationData.MinCountInLine, CurrentBiom.DecorationData.MaxCountInLine) * 2f);
 
-        List<Decoration> ObjectsInLine = new List<Decoration>();
+        List<Decoration> objectsInLine = new List<Decoration>();
 
-        List<string> RandomNames = new List<string>();
-
-        for (int i = 0; i < RandomNumberOfObjectsInLine; i++)
+        for (int i = 0; i < randomNumberOfObjectsInLine; i++)
         {
-            RandomNames.Add(DecorationsName[Random.Range(0, DecorationsName.Count)]);
+            float randomValue = Random.Range(0f, totalChance);
+            float cumulativeChance = 0f;
+
+            foreach (var decoration in decorations)
+            {
+                if (decoration != null)
+                {
+                    cumulativeChance += decoration.SpawnChance;
+
+                    if (randomValue < cumulativeChance)
+                    {
+                        var Object = Factory.Create<Decoration>(decoration.Prefab.gameObject);
+                        Object.SetupScale(decoration.ScaleMin, decoration.ScaleMax);
+                        
+                        objectsInLine.Add(Object);
+                        break;
+                    }
+                }
+            }
         }
 
-        for (int i = 0; i < RandomNames.Count; i++)
-        {
-            var RandomUnit = CurrentBiom.DecorationData.Decorations.Find(x => x.Prefab.GetName() == RandomNames[i]);
-            
-            var Object = DecorationsPool.Find(x => x.GetName() == RandomUnit.Prefab.GetName() && !x.gameObject.activeInHierarchy);
-
-            if(!Object)
-            {
-                Object = Instantiate(RandomUnit.Prefab);
-                Object.Initialization(RandomUnit.ScaleMin, RandomUnit.ScaleMax);
-                Object.gameObject.transform.parent = DecorationsParent;
-                DecorationsPool.Add(Object);
-                ObjectsInLine.Add(Object);
-            }
-            else
-            {
-                Object.gameObject.SetActive(true);
-                ObjectsInLine.Add(Object);
-            }            
-        } 
-
-        return ObjectsInLine;
+        return objectsInLine;
     }
 
-    public List<Enemy> GetEnemies()
+    public Road GetRoad()
+    {
+        if (_bioms.Count == 0) return null;
+        return Factory.Create<Road>(CurrentBiom.RoadsData.Roads[Random.Range(0, CurrentBiom.RoadsData.Roads.Count)].gameObject);
+    }
+
+    public Coin GetCoin()
     {
         if(_bioms.Count == 0) return null;
 
-        EnemiesName.Clear();
+        return Factory.Create<Coin>(Coin.gameObject);
+    }
 
-        for (int i = 0; i < CurrentBiom.EnemyData.Enemies.Count; i++)
-        {
-            for (int a = 0; a < CurrentBiom.EnemyData.Enemies[i].SpawnChance; a++)
-            {
-               EnemiesName.Add(CurrentBiom.EnemyData.Enemies[i].Prefab.GetName());
-            }
-        }
+    public PickUp GetPickUp()
+    {
+        if(_bioms.Count == 0) return null;
 
-        int RandomNumberOfObjectsInLine = Random.Range(CurrentBiom.EnemyData.MinCountInLine, CurrentBiom.EnemyData.MaxCountInLine) * 2;
+        return Factory.Create<PickUp>(PickUps[Random.Range(0, PickUps.Length)].gameObject);
+    }
 
-        List<Enemy> ObjectsInLine = new List<Enemy>();
+    public Obstacle GetObstacle()
+    {
+        if(_bioms.Count == 0) return null;  
 
-        List<string> RandomNames = new List<string>();
-
-        for (int i = 0; i < RandomNumberOfObjectsInLine; i++)
-        {
-            RandomNames.Add(EnemiesName[Random.Range(0, EnemiesName.Count)]);
-        }
-
-        for (int i = 0; i < RandomNames.Count; i++)
-        {
-            var RandomUnit = CurrentBiom.EnemyData.Enemies.Find(x => x.Prefab.GetName() == RandomNames[i]);
-            
-            var Object = EnemiesPool.Find(x => x.GetName() == RandomUnit.Prefab.GetName() && !x.gameObject.activeInHierarchy);
-
-            if(!Object)
-            {
-                Object = Instantiate(RandomUnit.Prefab);
-                Object.Initialization(RandomUnit.ScaleMin, RandomUnit.ScaleMax);
-                Object.gameObject.transform.parent = EnemiesParent;
-                EnemiesPool.Add(Object);
-                ObjectsInLine.Add(Object);
-            }
-            else
-            {
-                Object.gameObject.SetActive(true);
-                ObjectsInLine.Add(Object);
-            }            
-        } 
-
-        return ObjectsInLine;
+        return Factory.Create<Obstacle>(CurrentBiom.ObstacleData.Obstacles[Random.Range(0, CurrentBiom.ObstacleData.Obstacles.Count)].gameObject);
     }
 }

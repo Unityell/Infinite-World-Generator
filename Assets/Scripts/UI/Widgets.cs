@@ -11,15 +11,15 @@ public abstract class Widgets : MonoBehaviour
 
     protected virtual void Subscribe()
     {
-        EventBus.Event += SignalBox;
+        EventBus.Subscribe(SignalBox);
     }
 
     protected virtual void Unsubscribe()
     {
-        EventBus.Event -= SignalBox;
+        EventBus.Unsubscribe(SignalBox);
     }
 
-    protected abstract void SignalBox(object Obj);
+    protected virtual void SignalBox(object Obj){}
 
     public void Enable(bool Switch)
     {

@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43430310785d89f4fbe0c8d8fb18c85e, type: 3}
+  m_Name: StoneFieldDecorationData
+  m_EditorClassIdentifier: 
+  _LineLenght: 9
+  _MaxCountInLine: 9
+  _MinCountInLine: 0
+  _Decorations:
+  - Prefab: {fileID: 5289580794509531657, guid: f904f016b6eb3b64da2ad75d9b957bee, type: 3}
+    SpawnChance: 10
+    ScaleMin: 6
+    ScaleMax: 8
+  - Prefab: {fileID: 565585135500634319, guid: 1ce7bab6ffac62341946687ae2bb5486, type: 3}
+    SpawnChance: 2
+    ScaleMin: 2
+    ScaleMax: 4
+  - Prefab: {fileID: -5504793177095161630, guid: 1dbedd825943261428c5a0d04bc14be6, type: 3}
+    SpawnChance: 1
+    ScaleMin: 2
+    ScaleMax: 3
+  - Prefab: {fileID: 7775547322354987048, guid: 76e6d434bacf8b740aaed50eee69e9b0, type: 3}
+    SpawnChance: 1
+    ScaleMin: 2
+    ScaleMax: 3

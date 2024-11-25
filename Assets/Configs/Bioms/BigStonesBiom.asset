@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cd87a398b3a1bc43961c839fd0f51fb, type: 3}
+  m_Name: BigStonesBiom
+  m_EditorClassIdentifier: 
+  _name: StoneField
+  _chance: 35
+  _LineLenght: 9
+  _minBiomLenght: 200
+  _maxBiomLenght: 1000
+  _roadsData: {fileID: 11400000, guid: 8c246dc27b37f8648a8decf4b7c16b27, type: 2}
+  _decorationData: {fileID: 11400000, guid: a6bdd1cd082f2964ebf6469209d7a2a6, type: 2}
+  _obstacleData: {fileID: 11400000, guid: 30ea8267979011c4e92856aaf58aff93, type: 2}

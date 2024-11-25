@@ -1,6 +1,6 @@
 public class BiomInfoSignal
 {
-    public string name;
+    public readonly string name;
 
     public BiomInfoSignal(string name)
     {

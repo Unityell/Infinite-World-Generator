@@ -3,7 +3,12 @@ guid: 99f5daf10b7ee554ab82138cf2408bb4
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Elf_bush_Map
+    second: {fileID: 2100000, guid: 8d7633a6973bd724bb15ff54eafb9445, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -16,6 +21,8 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 

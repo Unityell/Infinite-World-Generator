@@ -1,11 +1,9 @@
-using UnityEngine;
-
 public class Decoration : Unit
 {
-    [HideInInspector] public float ScaleMin;
-    [HideInInspector] public float ScaleMax;
+    public float ScaleMin {get; private set;}
+    public float ScaleMax {get; private set;}
 
-    public void Initialization(float ScaleMin, float ScaleMax)
+    public void SetupScale(float ScaleMin, float ScaleMax)
     {
         this.ScaleMin = ScaleMin;
         this.ScaleMax = ScaleMax;

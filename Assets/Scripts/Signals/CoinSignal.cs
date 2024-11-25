@@ -1,6 +1,6 @@
 public struct CoinSignal
 {
-    public int ExtraCoin;
+    public readonly int ExtraCoin;
 
     public CoinSignal(int ExtraCoin)
     {

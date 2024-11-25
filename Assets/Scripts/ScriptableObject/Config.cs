@@ -5,20 +5,21 @@ using UnityEngine;
 public class Config : ScriptableObject
 {
     [Header("GameSettings")]
-    [SerializeField] 
-    [Range(0, 7500)] protected float                 _maxGameSpeed;
-    public float MaxGameSpeed =>    _maxGameSpeed; 
+    [Range(0, 7500), SerializeField] protected float    _maxGameSpeed;
+    public float MaxGameSpeed =>        _maxGameSpeed; 
+    [Range(0, 7500), SerializeField] protected float    _startGameSpeed;
+    public float StartGameSpeed =>      _startGameSpeed; 
 
     [SerializeField, Range(0.1f, 1000)] 
-    protected float                 _acceleration;
-    public float Acceleration =>    _acceleration;  
+    protected float                     _acceleration;
+    public float Acceleration =>        _acceleration;  
 
     [SerializeField, ReadOnly] 
-    public float                    TargetGameSpeed;
+    public float                        CurrentGameSpeed;
     [SerializeField, ReadOnly] 
-    public float                    CurrentGameSpeed;
+    public float                        CurrentDistance;
     [SerializeField, ReadOnly] 
-    public float                    CurrentDistance;
+    public int                          Score;
 
     private void OnValidate()
     {

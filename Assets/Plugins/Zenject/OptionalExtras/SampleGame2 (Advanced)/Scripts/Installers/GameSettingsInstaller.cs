@@ -24,7 +24,7 @@ namespace Zenject.SpaceFighter
         public GameRestartHandler.Settings GameRestartHandler;
         public GameInstaller.Settings GameInstaller;
         public PlayerSettings Player;
-        public EnemySettings Enemy;
+        public EnemySettings Animal;
 
         [Serializable]
         public class PlayerSettings
@@ -59,12 +59,12 @@ namespace Zenject.SpaceFighter
             Container.BindInstance(Player.PlayerCollisionHandler).IfNotBound();
             Container.BindInstance(Player.PlayerHealthWatcher).IfNotBound();
 
-            Container.BindInstance(Enemy.EnemyStateIdle).IfNotBound();
-            Container.BindInstance(Enemy.EnemyRotationHandler).IfNotBound();
-            Container.BindInstance(Enemy.EnemyStateFollow).IfNotBound();
-            Container.BindInstance(Enemy.EnemyStateAttack).IfNotBound();
-            Container.BindInstance(Enemy.EnemyHealthWatcher).IfNotBound();
-            Container.BindInstance(Enemy.EnemyCommonSettings).IfNotBound();
+            Container.BindInstance(Animal.EnemyStateIdle).IfNotBound();
+            Container.BindInstance(Animal.EnemyRotationHandler).IfNotBound();
+            Container.BindInstance(Animal.EnemyStateFollow).IfNotBound();
+            Container.BindInstance(Animal.EnemyStateAttack).IfNotBound();
+            Container.BindInstance(Animal.EnemyHealthWatcher).IfNotBound();
+            Container.BindInstance(Animal.EnemyCommonSettings).IfNotBound();
         }
     }
 }

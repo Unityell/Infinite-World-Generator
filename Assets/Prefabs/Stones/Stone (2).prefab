@@ -9,6 +9,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: efebb85c253030344bcd0d2744ac0db6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: efebb85c253030344bcd0d2744ac0db6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: efebb85c253030344bcd0d2744ac0db6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: efebb85c253030344bcd0d2744ac0db6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -77,9 +89,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3908f1022b2c41a47a99a06fd5aea2dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _name: Stone_2
-  SpawnChance: 10
-  SpawnDistanceMin: 1.5
-  SpawnDistanceMax: 3
+  Name: Stone (2)
   ScaleMin: 0.75
   ScaleMax: 3
